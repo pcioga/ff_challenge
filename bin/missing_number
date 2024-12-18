@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'optparse'
+require_relative '../lib/missing_number'
+
+begin
+  puts "\n##Find the missing number in the sequence##"
+  puts "\nPlease enter the sequence (e.g., 1,3,4,...):"
+  sequence = gets.chomp.strip
+  arr = sequence.split(',').map(&:to_i)
+  puts "\nPlease enter the nth missing number:"
+  nth = gets.chomp.strip
+  nth = nth.empty? ? 1 : nth.to_i
+  result = MissingNumber.find_missing_number(arr, nth:)
+  puts "\nYour missing number is: #{result}"
+rescue => e
+  puts "Error: #{e.message}"
+  exit 1
+end
