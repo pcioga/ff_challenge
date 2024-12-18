@@ -4,14 +4,37 @@
 require 'optparse'
 require_relative '../lib/missing_number'
 
+def validate_sequence_input(input)
+  if input.strip.empty?
+    return []
+  end
+  
+  # Check if input follows the correct format (comma-separated numbers)
+  unless input.match?(/^\s*\d+\s*(,\s*\d+\s*)*$/)
+    raise ArgumentError, "Invalid input format. Please enter comma-separated integers (e.g., 1,3,4)"
+  end
+  
+  sequence = input.split(',').map(&:to_i)
+end
+
+def validate_nth_input(input)
+  return 1 if input.empty?
+  
+  if !input.match?(/^\d+$/)
+    raise ArgumentError, "Please enter a valid positive integer"
+  end
+
+  input.to_i
+end
+
 begin
   puts "\n##Find the missing number in the sequence##"
   puts "\nPlease enter the sequence (e.g., 1,3,4,...):"
   sequence = gets.chomp.strip
-  arr = sequence.split(',').map(&:to_i)
+  arr = validate_sequence_input(sequence)
   puts "\nPlease enter the nth missing number:"
   nth = gets.chomp.strip
-  nth = nth.empty? ? 1 : nth.to_i
+  nth = validate_nth_input(nth)
   result = MissingNumber.find_missing_number(arr, nth:)
   puts "\nYour missing number is: #{result}"
 rescue => e
